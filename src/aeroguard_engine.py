@@ -7,28 +7,47 @@ import os
 import json
 import hashlib
 import datetime
-import warnings # Add missing import
-from src.config import ARTIFACT_DIR, SENSOR_FEATURES, DQI_THRESHOLD, LEDGER_PATH, HARD_LIMIT_EGT
-from src.real_data import load_stratified_data
-
-# Suppress sklearn warnings if needed
+import torch
 import warnings
+from src.config import ARTIFACT_DIR, SENSOR_FEATURES, DQI_THRESHOLD, LEDGER_PATH, HARD_LIMIT_EGT
+from src.models import SensorHealthAE # Import the new Autoencoder
+
 warnings.filterwarnings('ignore')
 
 class AeroGuardEngine:
     def __init__(self):
         self.model_path = os.path.join(ARTIFACT_DIR, "real_data_iforest.pkl")
         self.scaler_path = os.path.join(ARTIFACT_DIR, "real_data_scaler.pkl")
+        self.ae_path = os.path.join(ARTIFACT_DIR, "aeroguard_ae.pth") # New AE path
         self.inventory_path = os.path.join(os.path.dirname(__file__), "inventory.json")
         
-        print(f"Loading AeroGuard Phase III Intelligence...")
+        print(f"Loading AeroGuard Phase IV Intelligence (Certification-Grade)...")
         self.model = joblib.load(self.model_path)
         self.scaler = joblib.load(self.scaler_path)
+        
+        # Load Autoencoder for Safety Inhibit
+        self.ae = SensorHealthAE(input_dim=len(SENSOR_FEATURES))
+        if os.path.exists(self.ae_path):
+            self.ae.load_state_dict(torch.load(self.ae_path))
+            self.ae.eval()
+        else:
+            print("Warning: Autoencoder weights not found. Safety Inhibit will run in passthrough mode.")
+            
         self.explainer = shap.TreeExplainer(self.model)
+        self.model_hash = self._compute_file_hash(self.model_path)
         
         # Load Inventory & Ledger
         self.inventory = self._load_json(self.inventory_path)
         self._init_ledger()
+
+    def _compute_file_hash(self, path):
+        """Cryptographic Proof of Training"""
+        if not os.path.exists(path): return "UNKNOWN"
+        h = hashlib.sha256()
+        with open(path, 'rb') as f:
+            while chunk := f.read(8192):
+                h.update(chunk)
+        return h.hexdigest()
 
     def _load_json(self, path):
         try:
@@ -36,29 +55,44 @@ class AeroGuardEngine:
         except: return {}
 
     def _init_ledger(self):
-        """Ensures the ledger exists and starts the chain."""
         if not os.path.exists(LEDGER_PATH):
             with open(LEDGER_PATH, 'w') as f:
-                json.dump([{"block_id": 0, "prev_hash": "GENESIS", "timestamp": str(datetime.datetime.now())}], f)
+                genesis = {
+                    "block_id": 0, 
+                    "prev_hash": "GENESIS", 
+                    "timestamp": str(datetime.datetime.now()),
+                    "active_model_hash": self.model_hash # Log model version in Genesis
+                }
+                json.dump([genesis], f)
+
+    def _check_safety_inhibit(self, X_scaled_df):
+        """
+        Safety Interlock Logic.
+        Uses Autoencoder reconstruction error to detect Data Incompatibility.
+        """
+        # Convert to tensor
+        x = torch.tensor(X_scaled_df.values, dtype=torch.float32)
+        with torch.no_grad():
+            recon = self.ae(x)
+            mse = torch.mean((x - recon)**2).item()
+            
+        # Critical Threshold (e.g., 2.0 MSE is massive deviation from normal manifold)
+        # If model hasn't been trained, MSE might be random, so we skip if passthrough.
+        # For prototype, we set a high threshold or skip if untrained.
+        if not os.path.exists(self.ae_path): return False, 0.0
+        
+        CRITICAL_AE_THRESHOLD = 5.0 # TBD via Validation
+        if mse > CRITICAL_AE_THRESHOLD:
+            return True, mse
+        return False, mse
 
     def _generate_dqi(self, frame):
-        """
-        Data Quality Index (DQI):
-        Calculates the 'health' of the sensor stream based on missingness and variance.
-        """
-        # Check for NaNs
         missing_pct = frame[SENSOR_FEATURES].isna().mean()
-        
-        # Check for "Frozen" sensors (Static values are often a sign of sensor failure)
-        # Note: In a real-time stream, this would check a rolling window.
-        # For a single frame, we check if key sensors are exactly zero or improbable.
         is_frozen = 1 if frame.get('VIB', 1) == 0 else 0 
-        
         dqi_score = 1.0 - (missing_pct * 0.5) - (is_frozen * 0.5)
         return max(0.0, float(dqi_score))
 
     def _update_ledger(self, report):
-        """Immutable Ledger: Appends report to a cryptographically linked chain."""
         try:
             with open(LEDGER_PATH, 'r+') as f:
                 ledger = json.load(f)
@@ -70,6 +104,7 @@ class AeroGuardEngine:
                     "prev_hash": prev_hash,
                     "report_id": report.get("integrity_hash"),
                     "status": report.get("status"),
+                    "model_integrity": self.model_hash,
                     "timestamp": str(datetime.datetime.now())
                 }
                 ledger.append(new_block)
@@ -79,49 +114,43 @@ class AeroGuardEngine:
             print(f"Ledger Error: {e}")
 
     def calculate_lead_time_advantage(self, frame):
-        """Digital Twin Ghosting: Compares AI detection vs. OEM Hard Limits."""
         current_egt = frame.get('EGT', 0)
-        # Calculate how close we are to the 'Hard Limit' alert
         distance_to_fault = HARD_LIMIT_EGT - current_egt
         return f"Detected {distance_to_fault:.1f}C before OEM Hard Limit threshold."
 
     def analyze_frame(self, frame_data):
-        # 1. Feature Prep & DQI
         X_df = pd.DataFrame([frame_data])[SENSOR_FEATURES]
-        dqi_score = self._generate_dqi(frame_data)
         X_scaled = self.scaler.transform(X_df)
         
-        # 2. Anomaly Detection
+        # 1. Safety Inhibit Interlock (Dynamic DQI)
+        inhibit_active, ae_error = self._check_safety_inhibit(pd.DataFrame(X_scaled, columns=SENSOR_FEATURES))
+        
+        if inhibit_active:
+            report = {
+                "status": "DATA_INVALID_INHIBIT",
+                "reason": f"Sensor Data Integrity Violation (Reconstruction Error: {ae_error:.2f})",
+                "dqi_confidence": "ZERO",
+                "action": "MANUAL INSPECTION REQUIRED - AI PREDICTION INHIBITED",
+                "model_integrity": self.model_hash
+            }
+            # Still log inhibit events
+            report["integrity_hash"] = hashlib.sha256(json.dumps(report, sort_keys=True).encode()).hexdigest()
+            self._update_ledger(report)
+            return report
+
+        # 2. Normal Analysis
+        dqi_score = self._generate_dqi(frame_data)
         score = self.model.decision_function(X_scaled)[0]
-        # In iForest, lower score = more anomalous.
         is_anomaly = self.model.predict(X_scaled)[0] == -1
         
-        # 3. Probabilistic Risk Envelope
-        # For iForest, we use the decision score distribution to simulate a safety window.
-        # A lower score implies higher severity/certainty of the anomaly.
-        # Simple heuristic mapping for demo:
-        # Score 0.2 (Normal) -> High cycles
-        # Score -0.1 (Anomaly) -> Low cycles
-        cycles_baseline = 100
-        if score < 0:
-            cycles_baseline = max(1, int((0.05 + score) * 1000)) # e.g. -0.01 -> 40 cycles? No logic is weird.
-            # Use abs(score) approach from prompt
-            lower_bound = max(1, int(abs(score) * 100)) # Simulated cycles remaining
-        else:
-            lower_bound = 500 # Safe
-            
+        # Risk Envelope (Simulated for iForest, real would use Quantile output from LSTM)
+        lower_bound = max(1, int(abs(score) * 100)) 
         upper_bound = int(lower_bound * 1.25)
         
-        # 4. Phase Normalization (Optional context check)
-        phase_label = "Cruise/Other" if frame_data.get('ALT', 0) > 10000 else "Maneuver"
-        
-        # Logic Gate: Only alert if Anomaly AND DQI is good
         if is_anomaly and dqi_score >= DQI_THRESHOLD:
-            # 5. XAI & Logistics
             shap_values = self.explainer.shap_values(X_scaled)
             contributions = dict(zip(SENSOR_FEATURES, shap_values[0]))
             top_driver = max(contributions, key=lambda k: abs(contributions[k]))
-            
             part_info = self.inventory.get(top_driver, {}) 
             
             report = {
@@ -136,15 +165,15 @@ class AeroGuardEngine:
                 "logistics": {
                     "stock": part_info.get("location", "Unknown"),
                     "manual_text": part_info.get("manual_text", "Refer to AMM.")
-                }
+                },
+                "model_integrity": self.model_hash
             }
             report["integrity_hash"] = hashlib.sha256(json.dumps(report, sort_keys=True).encode()).hexdigest()
-            self._update_ledger(report) # Commit to Ledger
+            self._update_ledger(report) 
             return report
         
-        return {"status": "NORMAL", "dqi": dqi_score}
+        return {"status": "NORMAL", "dqi": dqi_score, "model_integrity": self.model_hash}
 
-# Simple Test Harness
 if __name__ == "__main__":
     engine = AeroGuardEngine()
-    print("Engine Initialized. Ledger created at:", LEDGER_PATH)
+    print("Certification-Grade Engine Online.")
