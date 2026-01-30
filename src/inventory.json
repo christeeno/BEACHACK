@@ -1,51 +1,58 @@
-
 {
-    "Engine Core / Combustion": {
+    "EGT": {
         "part_number": "CFM56-7B-Combustor",
         "stock_quantity": 2,
         "location": "JFK Hub",
-        "lead_time_days": 14
+        "lead_time_days": 14,
+        "task_card_id": "TC-72-00-01",
+        "manual_text": "Perform high-pressure turbine borescope inspection per AMM 72-00."
     },
-    "Fuel System / Flow": {
+    "FF": {
         "part_number": "FUEL-PUMP-X7",
         "stock_quantity": 5,
         "location": "LHR Maintenance Bay",
-        "lead_time_days": 2
+        "lead_time_days": 2,
+        "task_card_id": "TC-73-10-02",
+        "manual_text": "Inspect fuel nozzle flow rate and check for blockages."
     },
-    "Fan / Low Pressure Compressor": {
+    "N1": {
         "part_number": "FAN-BLADE-TI",
         "stock_quantity": 12,
         "location": "JFK Hub",
-        "lead_time_days": 1
+        "lead_time_days": 1,
+        "task_card_id": "TC-72-30-05",
+        "manual_text": "Check fan blades for foreign object damage (FOD)."
     },
-    "High Pressure Compressor": {
+    "N2": {
         "part_number": "HPC-SHAFT-V2",
         "stock_quantity": 0,
         "location": "Out of Stock - Backorder",
-        "lead_time_days": 45
+        "lead_time_days": 45,
+        "task_card_id": "TC-72-40-01",
+        "manual_text": "Inspect compressor shaft alignment."
     },
-    "Airframe / Structural": {
+    "VRTG": {
         "part_number": "STRUT-320",
         "stock_quantity": 8,
         "location": "ORD Logistics",
-        "lead_time_days": 3
+        "lead_time_days": 3,
+        "task_card_id": "TC-32-10-09",
+        "manual_text": "Conduct structural stress test on landing gear struts."
     },
-    "Hydraulic System": {
+    "HYDY": {
         "part_number": "HYD-ACTUATOR-MAIN",
         "stock_quantity": 3,
         "location": "JFK Hub",
-        "lead_time_days": 5
+        "lead_time_days": 5,
+        "task_card_id": "TC-29-10-03",
+        "manual_text": "Pressure test main hydraulic actuators."
     },
-    "Engine Mounts / Vibration": {
+    "VIB": {
         "part_number": "ENG-ISO-MOUNT",
         "stock_quantity": 2,
-        "location": "JFK Hub",
-        "lead_time_days": 7
-    },
-    "General Systems": {
-        "part_number": "GEN-KIT-A",
-        "stock_quantity": 100,
-        "location": "Global",
-        "lead_time_days": 0
+        "location": "LHR Maintenance Bay",
+        "lead_time_days": 7,
+        "task_card_id": "TC-71-20-05",
+        "manual_text": "Inspect aft engine mount bolts for torque loss and structural fatigue."
     }
 }

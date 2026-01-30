@@ -18,6 +18,13 @@ SENSOR_FEATURES = [
     'LATP', 'LONP', 'ALT', 'VEL', 'TH', 'N1', 'N2', 'EGT', 'FF', 
     'VIB', 'VRTG', 'OIL_P', 'OIL_T', 'FLAP', 'HYDY'
 ]
+
+# Phase III Additions
+DQI_THRESHOLD = 0.7
+CONFIDENCE_LEVEL = 0.95
+import os
+LEDGER_PATH = os.path.join(os.path.dirname(__file__), "ledger.json")
+HARD_LIMIT_EGT = 900.0 # Standard OEM threshold for EGT alerts
 # Features to exclude from training but keep for context/phases
 CONTEXT_FEATURES = ['FLIGHT_PHASE', 'RUL', 'CYCLE', 'FLIGHT_ID']
 
