@@ -1,0 +1,25 @@
+
+# Python internals
+__pycache__/
+*.py[cod]
+*.so
+.ipynb_checkpoints/
+
+# Virtual Environment
+myvenv/
+venv/
+env/
+
+# Large Data & Output Files
+csv_output/
+data/
+
+# User specifically asked to only keep src code and model output options
+# ignoring root level large files if any, but standard ignored listed above.
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env

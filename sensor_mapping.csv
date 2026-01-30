@@ -1,0 +1,17 @@
+Feature,Component,Failure_Mode
+N1,Fan Spool,Vibration Imbalance / Blade Damage
+N2,Core Spool,Compressor Stall / Bearing Wear
+EGT,Combustion Chamber,Thermal Degradation / Seal Leak
+FF,Fuel System,Clogged Injector / Pump Failure
+VIB,Whole Engine,Mounting Stress / Foreign Object Damage (FOD)
+VRTG,Airframe,Hard Landing / Turbulence Stress
+OIL_P,Lubrication,Pump Failure / Leak
+OIL_T,Lubrication,Cooling Failure / Bearing Friction
+HYDY,Hydraulics,Actuator Leak / Pump Failure
+FLAP,Wing Control,Actuator Jam / Motor Failure
+TH,Throttle Lever,Command/Response Mismatch
+ALT,Avionics,Sensor Drift
+VEL,Avionics,Pitot Tube Blockage
+LATP,Nav System,INS Drift
+LONP,Nav System,INS Drift
+EFFICIENCY_DRIFT,Engine Core,Overall Efficiency Loss (Compressor/Turbine)

@@ -1,0 +1,51 @@
+
+{
+    "Engine Core / Combustion": {
+        "part_number": "CFM56-7B-Combustor",
+        "stock_quantity": 2,
+        "location": "JFK Hub",
+        "lead_time_days": 14
+    },
+    "Fuel System / Flow": {
+        "part_number": "FUEL-PUMP-X7",
+        "stock_quantity": 5,
+        "location": "LHR Maintenance Bay",
+        "lead_time_days": 2
+    },
+    "Fan / Low Pressure Compressor": {
+        "part_number": "FAN-BLADE-TI",
+        "stock_quantity": 12,
+        "location": "JFK Hub",
+        "lead_time_days": 1
+    },
+    "High Pressure Compressor": {
+        "part_number": "HPC-SHAFT-V2",
+        "stock_quantity": 0,
+        "location": "Out of Stock - Backorder",
+        "lead_time_days": 45
+    },
+    "Airframe / Structural": {
+        "part_number": "STRUT-320",
+        "stock_quantity": 8,
+        "location": "ORD Logistics",
+        "lead_time_days": 3
+    },
+    "Hydraulic System": {
+        "part_number": "HYD-ACTUATOR-MAIN",
+        "stock_quantity": 3,
+        "location": "JFK Hub",
+        "lead_time_days": 5
+    },
+    "Engine Mounts / Vibration": {
+        "part_number": "ENG-ISO-MOUNT",
+        "stock_quantity": 2,
+        "location": "JFK Hub",
+        "lead_time_days": 7
+    },
+    "General Systems": {
+        "part_number": "GEN-KIT-A",
+        "stock_quantity": 100,
+        "location": "Global",
+        "lead_time_days": 0
+    }
+}

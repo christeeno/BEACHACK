@@ -1,0 +1,10 @@
+
+--- Model Separation Metrics (Context-Aware) ---
+Total Points: 347648
+Normal Count: 344400
+Anomaly Count: 3248 (0.93%)
+------------------------------
+Normal Score Mean:   0.2013 (std: 0.0605)
+Anomaly Score Mean:  -0.0139 (std: 0.0118)
+------------------------------
+Separation Gap: 0.2152
