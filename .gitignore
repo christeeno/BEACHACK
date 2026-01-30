@@ -14,8 +14,9 @@ env/
 csv_output/
 data/
 
-# User specifically asked to only keep src code and model output options
-# ignoring root level large files if any, but standard ignored listed above.
+# Notebooks
+Experiment 1.ipynb
+Experiment 2.ipynb
 
 # System files
 .DS_Store
