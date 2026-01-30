@@ -1,0 +1,89 @@
+[
+    {
+        "event_type": "Thermal Runaway",
+        "status": "SAFETY BREACH DETECTED",
+        "phase": "Cruise (Stable)",
+        "anomaly_score": 0.0367,
+        "risk_driver_shaps": {
+            "LATP": 0.09162424559476472,
+            "LONP": 0.06971475929594276,
+            "ALT": -0.3662077516284239,
+            "VEL": -0.2649536777394206,
+            "TH": -0.1689867010117378,
+            "N1": -0.4677920705098292,
+            "N2": -0.41844193257730683,
+            "EGT": -0.24087990101768963,
+            "FF": -0.713097700616353,
+            "VIB": -0.47562062810916617,
+            "VRTG": -0.08970369640444864,
+            "OIL_P": -0.8220590892984438,
+            "OIL_T": -0.14843329353516327,
+            "FLAP": 0.1132003010804113,
+            "HYDY": -0.8279624502387377
+        },
+        "action_plan": {
+            "instruction": "AeroGuard recommends immediate inspection of EGT related systems.",
+            "amm_reference": "AMM 72-00-00: Unscheduled Turbine Inspection",
+            "inventory_check": "Available in Hub A",
+            "guardrail": "Digital ID Required for Release"
+        }
+    },
+    {
+        "event_type": "Structural Shock",
+        "status": "SAFETY BREACH DETECTED",
+        "phase": "Landing / Touchdown",
+        "anomaly_score": 0.1677,
+        "risk_driver_shaps": {
+            "LATP": -0.014575038254555648,
+            "LONP": -0.07093095854870542,
+            "ALT": 0.3100169671985568,
+            "VEL": 0.08824204457591109,
+            "TH": 0.22925120532228546,
+            "N1": 0.13899642383896976,
+            "N2": 0.11721906736527635,
+            "EGT": -0.12179948212962838,
+            "FF": 0.12643498222116545,
+            "VIB": 0.07362765020028025,
+            "VRTG": -1.051304013369409,
+            "OIL_P": 0.06604785841365958,
+            "OIL_T": -0.04367220001330833,
+            "FLAP": -1.0778231520637258,
+            "HYDY": 0.059570359019285445
+        },
+        "action_plan": {
+            "instruction": "AeroGuard recommends immediate inspection of VRTG related systems.",
+            "amm_reference": "AMM 05-51-01: Hard Landing Inspection",
+            "inventory_check": "Available in Hub A",
+            "guardrail": "Digital ID Required for Release"
+        }
+    },
+    {
+        "event_type": "Command Disconnect",
+        "status": "SAFETY BREACH DETECTED",
+        "phase": "Cruise / Descent",
+        "anomaly_score": 0.1838,
+        "risk_driver_shaps": {
+            "LATP": -0.12535320254195437,
+            "LONP": -0.08070957656748727,
+            "ALT": 0.25150452233103654,
+            "VEL": 0.08548263510948027,
+            "TH": 0.20484444220900022,
+            "N1": -0.6081200777737108,
+            "N2": 0.13140004546258127,
+            "EGT": -0.10581079467437786,
+            "FF": 0.1228596481230798,
+            "VIB": 0.07700781900126796,
+            "VRTG": 0.24633926152752922,
+            "OIL_P": 0.06458366100364359,
+            "OIL_T": -0.037249894071926457,
+            "FLAP": -0.9563912422599206,
+            "HYDY": 0.06264598822177483
+        },
+        "action_plan": {
+            "instruction": "AeroGuard recommends immediate inspection of N1 related systems.",
+            "amm_reference": "AMM 73-00-00: Engine Fuel & Control System",
+            "inventory_check": "Available in Hub A",
+            "guardrail": "Digital ID Required for Release"
+        }
+    }
+]

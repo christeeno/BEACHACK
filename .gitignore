@@ -18,6 +18,12 @@ data/
 Experiment 1.ipynb
 Experiment 2.ipynb
 
+# Generated Test Artifacts
+*.txt
+*_output.json
+src/demo_alert_data.json
+*.png
+
 # System files
 .DS_Store
 Thumbs.db

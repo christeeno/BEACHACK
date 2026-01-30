@@ -1,0 +1,5 @@
+Injected: 15744
+Detected (TP): 0
+Missed (FN): 15744
+Simulated Recall: 0.0000
+Explanation: Direct manual calculation.
