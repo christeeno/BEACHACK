@@ -22,6 +22,7 @@ SENSOR_FEATURES = [
 # Phase III Additions
 DQI_THRESHOLD = 0.7
 CONFIDENCE_LEVEL = 0.95
+MSE_THRESHOLD = 5.0
 import os
 LEDGER_PATH = os.path.join(os.path.dirname(__file__), "ledger.json")
 HARD_LIMIT_EGT = 900.0 # Standard OEM threshold for EGT alerts

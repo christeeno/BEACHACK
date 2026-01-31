@@ -5,7 +5,7 @@
         "location": "JFK Hub",
         "lead_time_days": 14,
         "task_card_id": "TC-72-00-01",
-        "manual_text": "Perform high-pressure turbine borescope inspection per AMM 72-00."
+        "manual_text": "Perform high-pressure turbine borescope inspection per AMM 72-00. Check for blade glazing or erosion."
     },
     "FF": {
         "part_number": "FUEL-PUMP-X7",
@@ -13,7 +13,7 @@
         "location": "LHR Maintenance Bay",
         "lead_time_days": 2,
         "task_card_id": "TC-73-10-02",
-        "manual_text": "Inspect fuel nozzle flow rate and check for blockages."
+        "manual_text": "Inspect fuel nozzle flow rate and check for blockages. Verify HMU (Hydro-Mechanical Unit) output."
     },
     "N1": {
         "part_number": "FAN-BLADE-TI",
@@ -21,7 +21,7 @@
         "location": "JFK Hub",
         "lead_time_days": 1,
         "task_card_id": "TC-72-30-05",
-        "manual_text": "Check fan blades for foreign object damage (FOD)."
+        "manual_text": "Check fan blades for foreign object damage (FOD). Measure leading edge erosion limits."
     },
     "N2": {
         "part_number": "HPC-SHAFT-V2",
@@ -29,7 +29,7 @@
         "location": "Out of Stock - Backorder",
         "lead_time_days": 45,
         "task_card_id": "TC-72-40-01",
-        "manual_text": "Inspect compressor shaft alignment."
+        "manual_text": "Inspect compressor shaft alignment and bearing sump pressure."
     },
     "VRTG": {
         "part_number": "STRUT-320",
@@ -37,7 +37,7 @@
         "location": "ORD Logistics",
         "lead_time_days": 3,
         "task_card_id": "TC-32-10-09",
-        "manual_text": "Conduct structural stress test on landing gear struts."
+        "manual_text": "Conduct structural stress test on landing gear struts. Check oleo servicing and seal integrity."
     },
     "HYDY": {
         "part_number": "HYD-ACTUATOR-MAIN",
@@ -45,7 +45,7 @@
         "location": "JFK Hub",
         "lead_time_days": 5,
         "task_card_id": "TC-29-10-03",
-        "manual_text": "Pressure test main hydraulic actuators."
+        "manual_text": "Pressure test main hydraulic actuators. Check for internal bypassing or external leaks."
     },
     "VIB": {
         "part_number": "ENG-ISO-MOUNT",
@@ -53,6 +53,70 @@
         "location": "LHR Maintenance Bay",
         "lead_time_days": 7,
         "task_card_id": "TC-71-20-05",
-        "manual_text": "Inspect aft engine mount bolts for torque loss and structural fatigue."
+        "manual_text": "Inspect aft engine mount bolts for torque loss and structural fatigue. Perform vibration spectrum survey."
+    },
+    "OIL_P": {
+        "part_number": "OIL-PUMP-MAIN",
+        "stock_quantity": 4,
+        "location": "LAX Hangar",
+        "lead_time_days": 1,
+        "task_card_id": "TC-79-20-01",
+        "manual_text": "Inspect main oil pressure pump filter and scavenge screens for metal particles."
+    },
+    "OIL_T": {
+        "part_number": "OIL-COOLER-HE",
+        "stock_quantity": 3,
+        "location": "SIN Maintenance",
+        "lead_time_days": 8,
+        "task_card_id": "TC-79-10-04",
+        "manual_text": "Check fuel/oil heat exchanger for bypass operation. Inspect thermostatic valve function."
+    },
+    "LATP": {
+        "part_number": "ADIRU-UNIT-1",
+        "stock_quantity": 1,
+        "location": "DXB spares",
+        "lead_time_days": 10,
+        "task_card_id": "TC-34-10-00",
+        "manual_text": "Calibration check required on Air Data Inertial Reference Unit (ADIRU). Verify GNSS inputs."
+    },
+    "LONP": {
+        "part_number": "ADIRU-UNIT-1",
+        "stock_quantity": 1,
+        "location": "DXB spares",
+        "lead_time_days": 10,
+        "task_card_id": "TC-34-10-00",
+        "manual_text": "Calibration check required on Air Data Inertial Reference Unit (ADIRU). Verify GNSS inputs."
+    },
+    "ALT": {
+        "part_number": "STATIC-PORT-L",
+        "stock_quantity": 20,
+        "location": "JFK Hub",
+        "lead_time_days": 0,
+        "task_card_id": "TC-34-11-02",
+        "manual_text": "Inspect static ports for blockage (ice/tape). Perform pitot-static leak check."
+    },
+    "VEL": {
+        "part_number": "PITOT-PROBE-R",
+        "stock_quantity": 15,
+        "location": "JFK Hub",
+        "lead_time_days": 1,
+        "task_card_id": "TC-34-12-05",
+        "manual_text": "Inspect pitot tube heater functionality and drain hole clearance."
+    },
+    "TH": {
+        "part_number": "TLA-RESOLVER",
+        "stock_quantity": 6,
+        "location": "LHR Maintenance Bay",
+        "lead_time_days": 4,
+        "task_card_id": "TC-76-10-01",
+        "manual_text": "Check Throttle Lever Angle (TLA) resolver calibration. Verify FADEC input signal integrity."
+    },
+    "FLAP": {
+        "part_number": "FLAP-DRIVE-MOTOR",
+        "stock_quantity": 2,
+        "location": "FRA Hangar",
+        "lead_time_days": 12,
+        "task_card_id": "TC-27-50-01",
+        "manual_text": "Inspect flap drive unit and ballscrew mechanism for skew or binding."
     }
 }

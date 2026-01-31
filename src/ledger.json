@@ -1,1 +1,97 @@
-[{"block_id": 0, "prev_hash": "GENESIS", "timestamp": "2026-01-30 23:52:42.105999"}]
+[
+    {
+        "block_id": 0,
+        "prev_hash": "GENESIS",
+        "timestamp": "2026-01-30 23:52:42.105999"
+    },
+    {
+        "block_id": 1,
+        "prev_hash": "870526673eeef3279d2f1f5bf754ba235075b2fde0e0dd65fa10415f47755c15",
+        "report_id": "05c580d15f3f321ad22289a310b825938e8682f783b027f05811422c88e35bb4",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 02:07:14.779186"
+    },
+    {
+        "block_id": 2,
+        "prev_hash": "03e9bdd35b52f263aec0847c4472f56370cbd4357d47edfe73f344446e398151",
+        "report_id": "b1dadd874385a0b5974dd7827014771e9034864c54fe3dc96f0ebb3b9ee7b100",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 02:07:14.801629"
+    },
+    {
+        "block_id": 3,
+        "prev_hash": "f070bd6b28d0da9a848763f2b2a2ee59298a7e7dc169ebce793f279d53e98410",
+        "report_id": "bd50875bedc75c0cdaa181fbbe368d306280b74e4ad1de018232ae67943dcbe3",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 02:07:14.836272"
+    },
+    {
+        "block_id": 4,
+        "prev_hash": "a18849a2cf8e409b5d899e29c763a00acbed8bd97b079ea0a3c9dcc43062397d",
+        "report_id": "05c580d15f3f321ad22289a310b825938e8682f783b027f05811422c88e35bb4",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 02:20:14.057244"
+    },
+    {
+        "block_id": 5,
+        "prev_hash": "a6753eba388470d67f72be9e363757e49fb71a79822c6f9e3059586012900452",
+        "report_id": "b1dadd874385a0b5974dd7827014771e9034864c54fe3dc96f0ebb3b9ee7b100",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 02:20:14.092149"
+    },
+    {
+        "block_id": 6,
+        "prev_hash": "d53704ad9e31821f8d2be837f8c4e81d8491e8aba7d91e20f2f6d9e96c777cf6",
+        "report_id": "dcb87f6873f5d9fc55cb25438311f48aa3ffb819ae0538391a3d64e40d933724",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 02:20:14.130852"
+    },
+    {
+        "block_id": 7,
+        "prev_hash": "4d199dbb50cbe84ab5aadf37e9318069ea7b5ce949f9329ae1510cccd6bc43a0",
+        "report_id": "05c580d15f3f321ad22289a310b825938e8682f783b027f05811422c88e35bb4",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 04:39:17.787711"
+    },
+    {
+        "block_id": 8,
+        "prev_hash": "8948d13550fb027d63e510ee2db411af12b77d398628cecc7cb8ce1f268d5887",
+        "report_id": "b1dadd874385a0b5974dd7827014771e9034864c54fe3dc96f0ebb3b9ee7b100",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 04:39:17.819439"
+    },
+    {
+        "block_id": 9,
+        "prev_hash": "8a2d4e49f9025ef3b7337715d4e71c2d65d78869f929bda247bda83564f8fb46",
+        "report_id": "c6fe8100d3e07bbc3323e828db508623d9f75c6aef7646a31dd49f43976ae744",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "244cc7aa906b8c66499a8f8864404330b6715973ba4148b1608970036175e84f",
+        "timestamp": "2026-01-31 04:39:17.865746"
+    },
+    {
+        "block_id": 10,
+        "prev_hash": "N/A",
+        "report_id": "N/A",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "HASH_DISABLED_BY_USER",
+        "causal_matrix_hash": "HASH_DISABLED_BY_USER",
+        "timestamp": "2026-01-31 05:58:47.647369"
+    },
+    {
+        "block_id": 11,
+        "prev_hash": "N/A",
+        "report_id": "N/A",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "HASH_DISABLED_BY_USER",
+        "causal_matrix_hash": "HASH_DISABLED_BY_USER",
+        "timestamp": "2026-01-31 05:59:25.999527"
+    }
+]

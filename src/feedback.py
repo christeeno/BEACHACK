@@ -55,3 +55,28 @@ class FeedbackLoop:
         self.optimizer.step()
         
         print("Model weights updated based on feedback.")
+
+    def refine_causal_link(self, parent_sensor, child_sensor, user_rejected=True):
+        """
+        Phase V: Human-in-the-Loop Causal Refinement.
+        If an engineer rejects a diagnosis saying "Fuel Flow did NOT cause EGT",
+        we blacklist that edge.
+        """
+        if user_rejected:
+            import json
+            import os
+            blacklist_path = "src/causal_blacklist.json"
+            
+            current_list = []
+            if os.path.exists(blacklist_path):
+                with open(blacklist_path, 'r') as f:
+                    current_list = json.load(f)
+            
+            new_edge = [parent_sensor, child_sensor]
+            if new_edge not in current_list:
+                current_list.append(new_edge)
+                with open(blacklist_path, 'w') as f:
+                    json.dump(current_list, f)
+                print(f"Causal Edge {parent_sensor} -> {child_sensor} BLACKLISTED by Operator.")
+            else:
+                print("Edge already blacklisted.")
