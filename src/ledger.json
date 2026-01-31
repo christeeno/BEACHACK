@@ -183,5 +183,32 @@
         "model_integrity": "HASH_DISABLED_BY_USER",
         "causal_matrix_hash": "HASH_DISABLED_BY_USER",
         "timestamp": "2026-01-31 10:17:05.877525"
+    },
+    {
+        "block_id": 22,
+        "prev_hash": "N/A",
+        "report_id": "N/A",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "HASH_DISABLED_BY_USER",
+        "causal_matrix_hash": "HASH_DISABLED_BY_USER",
+        "timestamp": "2026-01-31 10:59:54.349981"
+    },
+    {
+        "block_id": 23,
+        "prev_hash": "N/A",
+        "report_id": "N/A",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "HASH_DISABLED_BY_USER",
+        "causal_matrix_hash": "HASH_DISABLED_BY_USER",
+        "timestamp": "2026-01-31 10:59:54.397144"
+    },
+    {
+        "block_id": 24,
+        "prev_hash": "N/A",
+        "report_id": "N/A",
+        "status": "DATA_INVALID_INHIBIT",
+        "model_integrity": "HASH_DISABLED_BY_USER",
+        "causal_matrix_hash": "HASH_DISABLED_BY_USER",
+        "timestamp": "2026-01-31 10:59:54.436750"
     }
 ]

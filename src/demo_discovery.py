@@ -14,6 +14,15 @@ def demo_discovery_learning():
     import src.aeroguard_engine
     src.aeroguard_engine.MSE_THRESHOLD = 10000.0
     
+    # 2. Inject an "Unknown" Fault
+    # We use a sensor 'X_UNKNOWN' (or logically, a pattern logic not in inventory)
+    # Since Inventory is key-based, we'll trick it by returning a Root Cause that isn't in inventory.
+    # We can do this by mocking the causal engine or simpler:
+    # Inject a frame where 'FF' is the cause, but TEMPORARILY remove 'FF' from inventory in memory.
+    
+    print("\n[Scenario] Simulating loss of database knowledge for 'FF' to trigger Discovery Mode...")
+    backup_ff = engine.inventory.pop('FF', None) # Remove FF from known parts
+    
     # Frame with FF -> EGT fault
     frame = {
         'LATP': 30.0, 'LONP': -90.0, 'ALT': 35000, 'VEL': 450, 'TH': 85,
@@ -24,55 +33,21 @@ def demo_discovery_learning():
         'FLAP': 0,     'HYDY': 3000
     }
     
-    print("\n[Scenario] Simulating loss of database knowledge to trigger Discovery Mode...")
-    
-    # Pre-Analysis to find what the engine thinks is the root cause
-    # We want to force Discovery Mode by deleting THAT key.
-    print("[Setup] Probing engine for root cause...")
-    # Using a high EGT frame
-    probe_frame = frame.copy()
-    
-    # We need to temporarily suppress printing or just call internal methods, 
-    # but simplest is to run analyze and ignore output, just get root cause.
-    # Note: analyze_frame might log to ledger, that's fine.
-    
-    # Hack: We need to ensure we don't trigger Discovery in this probe if we already deleted something?
-    # No, inventory is full right now.
-    
-    probe_report = engine.analyze_frame(probe_frame)
-    if 'diagnosis' in probe_report and 'root_cause_chain' in probe_report['diagnosis']:
-        rc = probe_report['diagnosis']['root_cause_chain'][0]
-        print(f"[Setup] Engine identified Root Cause as: {rc}")
-        
-        # NOW we delete this specific sensor from inventory
-        backup_item = engine.inventory.pop(rc, None)
-        print(f"[Setup] Removed '{rc}' from Inventory Database.")
-    else:
-        print("[Setup] Could not determine root cause. Defaulting to removing 'FF'.")
-        rc = 'FF'
-        backup_item = engine.inventory.pop('FF', None)
-
-    # 3. Main Pass: Discovery Mode
-    print(f"\n[Analysis] Processing Frame (Expect DISCOVERY_MODE for {rc})...")
+    # 3. First Pass: Discovery Mode
+    print("\n[Analysis] Processing Frame (Expect DISCOVERY_MODE)...")
     report = engine.analyze_frame(frame)
     print(f"Status: {report['status']}")
     print(f"Diagnosis Mode: {report.get('diagnosis_mode')}")
+    print(f"Manual Text: {report['logistics']['manual_text']}")
     
-    if report.get('diagnosis_mode') == "DISCOVERY_MODE": # Check diagnosis_mode mostly
+    if report['status'] == "DISCOVERY_MODE":
         sig = report['diagnosis']['extracted_signature']
         print(f"\n[System] Extracted Fault Signature: {sig[:3]}... (Length {len(sig)})")
         
         # 4. Human feedback (Teaching)
-        print("\n[Human] Engineer Input Required.")
-        new_label = input("Enter Fault Label (e.g. ATA-73-CAVITATION): ").strip()
-        if not new_label: new_label = "ATA-73-UNKNOWN-MANUAL"
-        
-        new_desc = input("Enter Task Description (e.g. Inspect pump impeller): ").strip()
-        if not new_desc: new_desc = "Perform manual inspection."
-        
-        print(f"\n[System] Learning new signature as '{new_label}'...")
+        print("\n[Human] Engineer identifies this as 'Fuel Pump Cavitation'. Teaching AI...")
         f_loop = FeedbackLoop(engine.hybrid)
-        f_loop.learn_signature(sig, new_label, new_desc)
+        f_loop.learn_signature(sig, "ATA-73-CAVITATION", "Inspect pump impeller for cavitation damage.")
         
         # 5. Second Pass: Adaptive Match
         print("\n[Analysis] Re-processing SAME Frame (Expect ADAPTIVE_MATCH)...")
@@ -87,8 +62,8 @@ def demo_discovery_learning():
         print(f"New Manual: {report_v2['logistics']['manual_text']}")
         
     # Restore inventory
-    if backup_item:
-        engine.inventory[rc] = backup_item
+    if backup_ff:
+        engine.inventory['FF'] = backup_ff
 
 if __name__ == "__main__":
     demo_discovery_learning()

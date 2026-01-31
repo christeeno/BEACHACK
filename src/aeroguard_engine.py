@@ -20,8 +20,9 @@ class AeroGuardEngine:
         # Paths
         self.lstm_path = os.path.join(ARTIFACT_DIR, "aeroguard_v1_lstm.pth")
         self.ae_path = os.path.join(ARTIFACT_DIR, "aeroguard_v1_ae.pth") 
-        self.iforest_path = os.path.join(ARTIFACT_DIR, "aeroguard_v1_iforest.joblib")
-        self.scaler_path = os.path.join(ARTIFACT_DIR, "aeroguard_v1_scaler.joblib")
+        # SWITCHING TO REAL DATA MODELS (PHASE IV PRODUCTION)
+        self.iforest_path = os.path.join(ARTIFACT_DIR, "real_data_iforest.pkl")
+        self.scaler_path = os.path.join(ARTIFACT_DIR, "real_data_scaler.pkl")
         self.inventory_path = os.path.join(os.path.dirname(__file__), "inventory.json")
         
         print(f"Loading AeroGuard Phase IV Intelligence (Certification-Grade)...")
