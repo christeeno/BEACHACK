@@ -11,6 +11,7 @@ import warnings
 from src.config import ARTIFACT_DIR, SENSOR_FEATURES, DQI_THRESHOLD, LEDGER_PATH, HARD_LIMIT_EGT, MSE_THRESHOLD, DATA_PATH
 from src.models import HybridModel # New Phase IV Model Class
 from src.causal_discovery import CausalDiscoverer # Phase V
+from src.signature_harvester import SignatureHarvester # Phase VI
 
 warnings.filterwarnings('ignore')
 
@@ -55,9 +56,12 @@ class AeroGuardEngine:
         self.causal_engine = CausalDiscoverer()
         # In a real system, we'd load a persistent graph. Here we learn from synthetic baseline.
         if os.path.exists(DATA_PATH):
-             # Load a sample to learn structure
+             # Ideally this is done offline, but for Demo we do it on init
              df_learn = pd.read_csv(DATA_PATH).head(2000)
              self.causal_engine.learn_causal_structure(df_learn)
+
+        # Phase VI: Signature Harvesting
+        self.harvester = SignatureHarvester()
         
         # Load Inventory & Ledger
         self.inventory = self._load_json(self.inventory_path)
@@ -182,22 +186,60 @@ class AeroGuardEngine:
             causal_chain = self.causal_engine.find_root_cause(top_driver)
             root_cause_sensor = causal_chain[0]
             
-            part_info = self.inventory.get(root_cause_sensor, {}) # Use Root Cause for inventory lookup
+            part_info = self.inventory.get(root_cause_sensor)
             
+            note = ""
+            diagnosis_mode = "STANDARD"
+            
+            # Phase VI: Signature Harvesting Fallback
+            if not part_info:
+                # 1. Harvest Signature
+                sig_vector = self.harvester.extract_fault_signature(shap_values[0], frame_data)
+                
+                # 2. Check Archives
+                match_found, meta = self.harvester.find_match(sig_vector)
+                
+                if match_found:
+                    # Adaptive Success
+                    diagnosis_mode = "ADAPTIVE_MATCH"
+                    part_info = {
+                        "task_card_id": meta.get('label', 'ADAPTIVE-TASK'),
+                        "manual_text": meta.get('manual_reference', 'Derived from historical learning.'),
+                        "location": "See Logistics"
+                    }
+                    note = f"Identified via Signature Match ({meta.get('similarity_score',0):.2f})"
+                else:
+                    # 3. Discovery Mode
+                    diagnosis_mode = "DISCOVERY_MODE"
+                    status = "DISCOVERY_MODE" # Override status
+                    part_info = {
+                        "task_card_id": "UNKNOWN-SIG",
+                        "manual_text": "Unknown system signature detected. Performing forensic data capture.",
+                        "location": "N/A"
+                    }
+                    note = "New Failure Mode Detected. Awaiting Human Labeling."
+                    # Capture signature in report for Ledger/Feedback
+                    
+            if part_info is None: # Safety fallback if harvester fails logic
+                 part_info = {}
+
             report = {
                 "status": status,
+                "diagnosis_mode": diagnosis_mode,
                 "dqi_confidence": "HIGH" if dqi_score > 0.9 else "MEDIUM",
                 "risk_envelope": risk_env,
                 "diagnosis": {
                     "primary_sensor": top_driver, # Symptom
                     "root_cause_chain": causal_chain, # [Root, ..., Symptom]
                     "lead_time_adv": self.calculate_lead_time_advantage(frame_data),
-                    "task_card": part_info.get("task_card_id", "GEN-01")
+                    "task_card": part_info.get("task_card_id", "GEN-01"),
+                    "extracted_signature": self.harvester.extract_fault_signature(shap_values[0], frame_data) if diagnosis_mode == "DISCOVERY_MODE" else None
                 },
                 "logistics": {
                     "stock": part_info.get("location", "Unknown"),
                     "manual_text": part_info.get("manual_text", "Refer to AMM.")
                 },
+                "note": note,
                 "model_integrity": self.model_hash
             }
             report["integrity_hash"] = "N/A"

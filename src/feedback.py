@@ -80,3 +80,13 @@ class FeedbackLoop:
                 print(f"Causal Edge {parent_sensor} -> {child_sensor} BLACKLISTED by Operator.")
             else:
                 print("Edge already blacklisted.")
+
+    def learn_signature(self, signature_vector, new_label, manual_ref):
+        """
+        Phase VI: Teach the AI a new fault signature.
+        Called when an engineer labels a 'DISCOVERY_MODE' alert.
+        """
+        from src.signature_harvester import SignatureHarvester
+        harvester = SignatureHarvester()
+        harvester.archive_signature(signature_vector, new_label, manual_ref)
+        print(f"Feedback Loop: New Signature Learned -> {new_label}")

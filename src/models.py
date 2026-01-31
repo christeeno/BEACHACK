@@ -134,6 +134,7 @@ class HybridModel:
         quantiles = self.predict_rul_quantiles(X_tensor)
         return quantiles[1]
 
+    def predict_rul_quantiles(self, X_tensor):
         """Returns [5%, 50%, 95%] RUL quantiles."""
         self.lstm.eval()
         with torch.no_grad():
